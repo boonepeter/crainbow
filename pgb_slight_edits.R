@@ -122,4 +122,54 @@ FeaturePlot(cca_out,features.plot=c("BASE EXCISION REPAIR","MISMATCH EXCISION RE
 FeaturePlot(cca_out,features.plot=c("PAM50"),reduction.use="tsne",nCol=1,min.cutoff = "q05", max.cutoff = "q95", cols.use = c("lightgrey", "red"), pt.size = 1)
 ###
 
+###################################################################################################
+# Finding differentially expressed genes (cluster biomarkers) and save the results #
+# NOTE: Can play around with the min.pct param - make it high - so that canonical markers get an advantage (hopefully)!!!!
+###################################################################################################
+cca_out.markers <- FindAllMarkers(object = cca_out, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
+cca_out.markers %>% group_by(cluster) %>% top_n(n = 5, wt = avg_logFC)
+
+
+
+
+print("Entering marker identification")
+
+cluster0.markers <- FindMarkers(object = cca_out, ident.1 = 0, min.pct = 0.25)
+cluster1.markers <- FindMarkers(object = cca_out, ident.1 = 1, min.pct = 0.25)
+cluster2.markers <- FindMarkers(object = cca_out, ident.1 = 2, min.pct = 0.25)
+cluster3.markers <- FindMarkers(object = cca_out, ident.1 = 3, min.pct = 0.25)
+cluster4.markers <- FindMarkers(object = cca_out, ident.1 = 4, min.pct = 0.25)
+cluster5.markers <- FindMarkers(object = cca_out, ident.1 = 5, min.pct = 0.25)
+cluster6.markers <- FindMarkers(object = cca_out, ident.1 = 6, min.pct = 0.25)
+cluster7.markers <- FindMarkers(object = cca_out, ident.1 = 7, min.pct = 0.25)
+cluster8.markers <- FindMarkers(object = cca_out, ident.1 = 8, min.pct = 0.25)
+cluster9.markers <- FindMarkers(object = cca_out, ident.1 = 9, min.pct = 0.25)
+cluster10.markers <- FindMarkers(object = cca_out, ident.1 = 10, min.pct = 0.25)
+cluster11.markers <- FindMarkers(object = cca_out, ident.1 = 11, min.pct = 0.25)
+
+
+#
+
+write.table(cluster0.markers, "./out/cluster0.tsv", sep="\t", col.names=T, row.names=T, quote=F)
+write.table(cluster1.markers, "./out/cluster1.tsv", sep="\t", col.names=T, row.names=T, quote=F)
+write.table(cluster2.markers, "./out/cluster2.tsv", sep="\t", col.names=T, row.names=T, quote=F)
+write.table(cluster3.markers, "./out/cluster3.tsv", sep="\t", col.names=T, row.names=T, quote=F)
+write.table(cluster4.markers, "./out/cluster4.tsv", sep="\t", col.names=T, row.names=T, quote=F)
+write.table(cluster5.markers, "./out/cluster5.tsv", sep="\t", col.names=T, row.names=T, quote=F)
+write.table(cluster6.markers, "./out/cluster6.tsv", sep="\t", col.names=T, row.names=T, quote=F)
+write.table(cluster7.markers, "./out/cluster7.tsv", sep="\t", col.names=T, row.names=T, quote=F)
+write.table(cluster8.markers, "./out/cluster8.tsv", sep="\t", col.names=T, row.names=T, quote=F)
+write.table(cluster9.markers, "./out/cluster9.tsv", sep="\t", col.names=T, row.names=T, quote=F)
+write.table(cluster10.markers, "./out/cluster10.tsv", sep="\t", col.names=T, row.names=T, quote=F)
+write.table(cluster11.markers, "./out/cluster11.tsv", sep="\t", col.names=T, row.names=T, quote=F)
+
+
+print("Leaving marker identification")
+
+cluster1.markers <- FindMarkers(object = cca_out, ident.1 = 1, ident.2 = 7, min.pct = 0.25, only.pos = TRUE)
+print(x = head(x = cluster1.markers, n = 20))
+
+
+
+
 dev.off()
